@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sanjeevani – A Second Chance at Life</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg shadow-sm fixed-top" style="background: linear-gradient(to bottom, #F6F4F0 0%, #f7e7d0 100%);">
+        <div class="container">
+          <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+            <div class="d-flex justify-content-center align-items-center rounded-4" style="width: 44px; height: 44px; background-color: #df684b;">
+              <i class="fa-solid fa-heart-pulse" style="color: #F6F4F0; font-size: 24px;"></i>
+            </div>
+            <div class="d-flex flex-column lh-sm m-1" style="margin-top: 2px;">
+              <strong style="color: #df684b; font-size: 20px;">Sanjeevani</strong>
+              <small style="font-size: 13px; color: #555;">A Second Chance at Life</small>
+            </div>
+          </a>
+          
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item"><a class="nav-link " href="/home.html">Home</a></li>
+              <li class="nav-item"><a class="nav-link active" href="/donor.html">Donate Organ</a></li>
+              <li class="nav-item"><a class="nav-link" href="/request.html">Request Organ</a></li>
+              <li class="nav-item"><a class="nav-link" href="/support.html">Support</a></li>
+              <li class="nav-item"><a class="nav-link" href="/awareness.html">Awareness</a></li>
+              <li class="nav-item"><a class="nav-link" href="/about.html">About</a></li>
+              <li class="nav-item"><a class="nav-link" href="/contact.html">Contact</a></li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="userDropdown">
+                  <i class="fas fa-user-circle fs-4" style="color: #df684b;"></i>
+                  <span id="navbarUsername" class="ms-2" style="color: #df684b; font-weight: 500;"></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li><a class="dropdown-item" href="#" onclick="logout()">Logout</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+<div class="text-center m-4">
+    <h2 class="fw-bold fs-1" style="color: #df684b;" >Become an Organ Donor</h2>
+    <p class="text-muted fst-italic fs-5 mt-3" >Your decision to donate is a selfless act of love. someone’s tomorrow now exists because of you.<br>Thank you for making a difference.</p>
+  </div>
+<form action="/register-donor" method="POST" id="donorForm" onsubmit="submitDonorData(event)">
+<section class="donor-form-section py-5">
+    <div class="container ">
+        <div class="donor-section">
+      <div class="card shadow-sm p-4 rounded-3" style="max-width: 900px; background-color: #faf9f4;">
+        <h3 class="card-title text-start m-4 mb-5 fw-bold" style="color: #df684b;">Personal Information</h3>
+        <div class="row g-3 needs-validation custom-form" novalidate>
+          <div class="col-md-6">
+            <label for="firstName" class="form-label">First Name</label>
+            <input type="text" class="form-control" id="firstName" placeholder="Enter your first name" required>
+        </div>
+          <div class="col-md-6">
+            <label for="lastName" class="form-label">Last Name</label>
+            <input type="text" class="form-control" id="lastName" placeholder="Enter your last name" required>
+        </div>
+          <div class="col-md-6">
+            <label for="email" class="form-label">Email Address</label>
+            <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+        </div>
+          <div class="col-md-6">
+            <label for="contact" class="form-label">Phone Number</label>
+            <input type="tel" class="form-control" id="contact" placeholder="Enter your phone number" required>
+          </div>
+          <div class="col-md-6">
+            <label for="age" class="form-label">Age</label>
+            <input type="number" class="form-control" id="age" min="18" max="100" placeholder="Enter your age" required>
+          </div>
+          <div class="col-md-6">
+            <label for="bloodGroup" class="form-label">Blood Group</label>
+            <select class="form-select" id="bloodGroup" required>
+              <option selected>O+</option>
+              <option>O-</option>
+              <option>A+</option>
+              <option>A-</option>
+              <option>B+</option>
+              <option>B-</option>
+              <option>AB+</option>
+              <option>AB-</option>
+            </select>
+          </div>
+          <div class="col-12">
+            <label for="address" class="form-label">Full Address</label>
+            <textarea class="form-control" id="address" rows="2" required placeholder="Enter your full address"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="info-card " style="background:#ffffff; border: 1px solid #e1b4ad;">
+        <h3 class="mb-4" style="color: #df684b;">Important Information</h3>
+        <ul class="custom-bullets">
+            <li>You must be 18 years or older to register.</li>
+            <li>You can change your mind and withdraw at any time</li>
+            <li>Medical suitability is determined at time of donation/death</li>
+            <li>Your family will be consulted about your decision</li>
+          </ul>
+      </div>
+    </div>
+    </div>
+  </section>
+    <section class="organs-section card shadow-sm p-4 rounded-3 ">
+        <h2 class="fw-bold fs-3 mb-4" style="color: #df684b;">Select Organs & Tissues to Donate</h2>
+    
+        <p class="fw-bold fs-5 tex" style="color: #555;">Organs & Tissues You Can Donate While Alive</p>
+        <div class="organs-grid">
+            <label class="organ-card">
+                <input type="checkbox" name="organs" value="Blood">
+                <div><strong>Blood</strong><p>Can save many lives</p></div>
+              </label>
+          <label class="organ-card">
+            <input type="checkbox" name="organs" value="Kidney">
+            <div><strong>Kidney</strong><p>1 can be donated while alive</p></div>
+          </label>
+    
+          <label class="organ-card">
+            <input type="checkbox" name="organs" value="Liver">
+            <div><strong>Liver</strong><p>Can regenerate over time</p></div>
+          </label>
+          <label class="organ-card">
+            <input type="checkbox" name="organs" value="Lung">
+            <div><strong>Lung</strong><p>A lobe of a lung can be donated.</p></div>
+          </label>
+          <label class="organ-card">
+            <input type="checkbox" name="organs" value="Bone Marrow">
+            <div><strong>Bone Marrow</strong><p>Can be regenerated</p></div>
+          </label>
+          <label class="organ-card">
+            <input type="checkbox" name="organs" value="Pancreas">
+            <div><strong>Pancreas</strong><p>A part of it can be donated</p></div>
+          </label>
+        </div>
+    
+        <p class="fw-bold fs-5 mt-5" style="color: #555;">Organs & Tissues You Can Donate After Death</p>
+        <div class="organs-grid">
+          <label class="organ-card">
+            <input type="checkbox" name="organs" value="Heart">
+            <div><strong>Heart</strong><p>Can save 1 life</p></div>
+          </label>
+    
+          <label class="organ-card">
+            <input type="checkbox" name="organs" value="Lungs">
+            <div><strong>Lungs</strong><p>Can save 2 lives</p></div>
+          </label>
+    
+          <label class="organ-card">
+            <input type="checkbox" name="organs" value="Liver">
+            <div><strong>Liver</strong><p>Can save up to 3 lives</p></div>
+          </label>
+    
+          <label class="organ-card">
+            <input type="checkbox" name="organs" value="Kidneys">
+            <div><strong>Kidneys</strong><p>Can save 2 lives</p></div>
+          </label>
+    
+          <label class="organ-card">
+            <input type="checkbox" name="organs" value="Corneas">
+            <div><strong>Corneas</strong><p>Can restore sight to 2 people</p></div>
+          </label>
+    
+          <label class="organ-card">
+            <input type="checkbox" name="organs" value="Pancreas">
+            <div><strong>Pancreas</strong><p>Helps with diabetes treatment</p></div>
+          </label>
+    
+          <label class="organ-card">
+            <input type="checkbox" name="organs" value="Intestines">
+            <div><strong>Intestines</strong><p>Can help people with digestion issues</p></div>
+          </label>
+    
+          <label class="organ-card">
+            <input type="checkbox" name="organs" value="Skin Tissue">
+            <div><strong>Skin Tissue</strong><p>Helps burn victims heal</p></div>
+          </label>
+    
+          <label class="organ-card">
+            <input type="checkbox" name="organs" value="Bone Tissue">
+            <div><strong>Bone Tissue</strong><p>Can help over 50 people</p></div>
+          </label>
+    
+          <label class="organ-card">
+            <input type="checkbox" name="organs" value="Brain (Research)">
+            <div><strong>Brain (Research)</strong><p>Helps advance medical science</p></div>
+          </label>
+        </div>
+      </section>
+      <section class="mt-5 d-flex justify-content-center">
+        <div class="form-card custom-form" style="background-color: #faf9f4;">
+          <h5 class="mb-3 fw-bold fs-4" style="color: #d86c48;">Consent & Declaration</h5>
+      
+          <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <input type="checkbox" id="consentCheck" required style="width: 18px; height: 18px; margin-top: 4px;" />
+            <label for="consentCheck" style="color: #8f5f4f; font-size: 16px;">
+              I hereby declare that I am willingly registering as an organ donor and consent to the donation of my organs and tissues as per applicable laws.
+            </label>
+          </div>
+      
+          <div class="text-center">
+            <button type="submit" class="btn mt-2 custom-form button">Submit Registration</button>
+          </div>
+        </div>
+      </section>
+</form>
+  <footer class="footer py-3 text-center mt-5" style="background-color: #df684b;">
+    <p style="color: #efe5d6;">&copy; 2025 Sanjeevani. All rights reserved.</p>
+  </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById("donorForm").addEventListener("submit", async function(event) {
+          event.preventDefault();
+    
+          const age = parseInt(document.getElementById("age").value);
+          const organs = [...document.querySelectorAll('input[name="organs"]:checked')].map(el => el.value);
+          const consent = document.getElementById("consentCheck").checked;
+    
+          if (age < 18) {
+            alert("You must be 18 or older to register.");
+            return;
+          }
+    
+          if (organs.length === 0) {
+            alert("Please select at least one organ to donate.");
+            return;
+          }
+    
+          if (!consent) {
+            alert("You must agree to the consent declaration.");
+            return;
+          }
+    
+          const donorData = {
+            firstName: document.getElementById("firstName").value,
+            lastName: document.getElementById("lastName").value,
+            email: document.getElementById("email").value,
+            contact: document.getElementById("contact").value,
+            age: age,
+            bloodGroup: document.getElementById("bloodGroup").value,
+            address: document.getElementById("address").value,
+            organs: organs
+          };
+    
+          try {
+  const response = await fetch("/register-donor", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(donorData)
+  });
+
+  const contentType = response.headers.get("content-type");
+
+  if (response.ok && contentType && contentType.includes("application/json")) {
+    const result = await response.json();
+    alert(result.message);
+    window.location.href = "/home.html";
+  } else {
+    alert("Registration successful!");
+    window.location.href = "/home.html";
+  }
+} catch (error) {
+  console.error("Error:", error);
+  alert("Something went wrong. Please try again later.");
+}
+        });
+        function logout() {
+  localStorage.removeItem("username");
+  alert("Logged out successfully.");
+  window.location.href = "/login.html";
+}
+        const username = localStorage.getItem("username");
+
+if (!username) {
+  alert("Please log in first.");
+  window.location.href = "/login.html";
+}
+
+if (username) {
+  const dropdown = document.querySelector(".dropdown-menu");
+  const userItem = document.createElement("li");
+  userItem.innerHTML = `<a class="dropdown-item disabled">Hi, ${username}</a>`;
+  dropdown.prepend(userItem);
+}
+
+      </script>
+  </body>
+</html>

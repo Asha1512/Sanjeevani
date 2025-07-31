@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Support | Sanjeevani</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="/css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body style="background: linear-gradient(to bottom, #F6F4F0 0%, #f7e7d0 100%);">
+  <nav class="navbar navbar-expand-lg shadow-sm fixed-top" style="background: linear-gradient(to bottom, #F6F4F0 0%, #f7e7d0 100%);">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+        <div class="d-flex justify-content-center align-items-center rounded-4" style="width: 44px; height: 44px; background-color: #df684b;">
+          <i class="fa-solid fa-heart-pulse" style="color: #F6F4F0; font-size: 24px;"></i>
+        </div>
+        <div class="d-flex flex-column lh-sm m-1" style="margin-top: 2px;">
+          <strong style="color: #df684b; font-size: 20px;">Sanjeevani</strong>
+          <small style="font-size: 13px; color: #555;">A Second Chance at Life</small>
+        </div>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="/home.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="/donor.html">Donate Organ</a></li>
+          <li class="nav-item"><a class="nav-link" href="/request.html">Request Organ</a></li>
+          <li class="nav-item"><a class="nav-link active" href="/support.html">Support</a></li>
+          <li class="nav-item"><a class="nav-link" href="/awareness.html">Awareness</a></li>
+          <li class="nav-item"><a class="nav-link" href="/about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="/contact.html">Contact</a></li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="userDropdown">
+              <i class="fas fa-user-circle fs-4" style="color: #df684b;"></i>
+              <span id="navbarUsername" class="ms-2" style="color: #df684b; font-weight: 500;"></span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="#" onclick="logout()">Logout</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="text-center m-4">
+    <h2 class="fw-bold fs-1" style="color: #df684b;" >Support Patients Financially</h2>
+    <p class="text-muted fst-italic fs-5 mt-3" >Behind every request is a family waiting for help.Every rupee gives hope. Your contribution, no matter the size,<br> can be the difference between life and death for someone waiting for a second chance.</p>
+  </div>
+ 
+  <div class="container mt-5 mb-5">
+   
+    <div id="supportCards" class="row"></div>
+  </div>
+  <footer class="footer py-3 text-center mt-5" style="background-color: #df684b;">
+    <p style="color: #efe5d6;">&copy; 2025 Sanjeevani. All rights reserved.</p>
+  </footer>
+  <script>
+    fetch('/support/approved')
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById("supportCards");
+        data.forEach(person => {
+          const percent = Math.min(100, Math.round((person.raisedAmount || 0) / (person.amountRequired || 1) * 100));
+          let urgencyClass = "bg-secondary";
+            const urgency = person.urgencyLevel?.toLowerCase() || "";
+
+            if (urgency.includes("critical") || urgency.includes("emergency")) {
+            urgencyClass = "bg-danger";
+            } else if (urgency.includes("high")) {
+            urgencyClass = "bg-warning text-dark";
+            } else if (urgency.includes("moderate")) {
+            urgencyClass = "bg-info text-dark";
+            } else if (urgency.includes("low")) {
+            urgencyClass = "bg-light text-dark";
+            }
+          const card = document.createElement("div");
+          card.className = "col-md-4";
+          card.innerHTML = `
+        <div class="support-card">
+            <div class="d-flex justify-content-between align-items-start">
+            <div>
+                <h5 class="fw-bold">${person.patientFirstName} ${person.patientLastName}</h5>
+                <p class="mb-1 text-muted">Age ${person.patientAge}</p>
+            </div>
+            <span class="badge ${urgencyClass}">${person.urgencyLevel.split(" ")[0]}</span>
+            </div>
+            <p class="mb-1"><i class="fa-solid fa-heart-pulse text-danger me-2"></i>${person.requiredOrgan}</p>
+            <p class="mb-1"><i class="fa-solid fa-location-dot text-success me-2"></i>${person.patientCity}</p>
+            <p class="mb-2"><i class="fa-solid fa-clock text-warning me-2"></i>${person.timeLeft} days left</p>
+            <p class="small">${person.supportReason}</p>
+            <p class="fw-bold mb-0">Raised: ₹${person.raisedAmount || 0} / ₹${person.amountRequired}</p>
+            <div class="progress">
+            <div class="progress-bar" style="width: ${percent}%"></div>
+            </div>
+            <p class="mt-1 text-danger fw-bold">${percent}% funded</p>
+            <div class="donate-options">
+            <button onclick="donateAmount('${person._id}', 500)">₹500</button>
+            <button onclick="donateAmount('${person._id}', 1000)">₹1000</button>
+            <button onclick="donateAmount('${person._id}', 2500)">₹2500</button>
+            <input type="number" id="customAmount-${person._id}" placeholder="Other amount" class="form-control mt-2">
+            </div>
+            <select class="form-select mt-3" id="paymentMethod-${person._id}" onchange="togglePaymentMode('${person._id}')">
+              <option value="" disabled selected>Select Payment Method</option>
+              <option value="Credit">Credit/Debit Card</option>
+              <option value="UPI">UPI</option>
+            </select>
+            <div class="custom-form text-center mt-2">
+            <button onclick="donateCustom('${person._id}')">
+                <i class="fa-solid fa-heart me-1"></i>Support ${person.patientFirstName}
+            </button>
+            </div>
+        `;
+          container.appendChild(card);
+        });
+      })
+      .catch(err => console.error("❌ Failed to load support data", err));
+
+      let donationId = null;
+let donationAmount = null;
+
+function togglePaymentMode(id) {
+  const method = document.getElementById(`paymentMethod-${id}`).value;
+  if (method === "Credit") {
+    document.getElementById("cardDetails").style.display = "block";
+    document.getElementById("upiDetails").style.display = "none";
+  } else if (method === "UPI") {
+    document.getElementById("cardDetails").style.display = "none";
+    document.getElementById("upiDetails").style.display = "block";
+  }
+}
+
+function donateAmount(id, amount) {
+  const method = document.getElementById(`paymentMethod-${id}`).value;
+  if (!amount || isNaN(amount) || amount <= 0 || !method) {
+    alert("Please select the payment method first and enter a valid amount.");
+    return;
+  }
+  donationId = id;
+  donationAmount = amount;
+  togglePaymentMode(id);
+  document.getElementById("paymentModal").style.display = "flex";
+}
+
+function donateCustom(id) {
+  const input = document.getElementById(`customAmount-${id}`);
+  const amount = Number(input.value);
+  donateAmount(id, amount);
+}
+
+function closeModal() {
+  document.getElementById("paymentModal").style.display = "none";
+}
+
+function confirmPayment() {
+  const method = document.getElementById(`paymentMethod-${donationId}`).value;
+
+  if (method === "Credit") {
+    const card = document.getElementById("cardNumber").value;
+    const cvv = document.getElementById("cvv").value;
+    const mm = document.getElementById("expiryMonth").value;
+    const yy = document.getElementById("expiryYear").value;
+
+    if (!/^\d{12}$/.test(card)) {
+      alert("Enter a valid 12-digit card number.");
+      return;
+    }
+    if (!/^\d{3}$/.test(cvv)) {
+      alert("Enter a valid 3-digit CVV.");
+      return;
+    }
+    if (!mm || !yy) {
+      alert("Select card expiry month and year.");
+      return;
+    }
+
+  } else if (method === "UPI") {
+    const upi = document.getElementById("upiId").value;
+    if (!upi || !/^[a-zA-Z0-9.\-_]+@[a-zA-Z]+$/.test(upi)) {
+      alert("Enter a valid UPI ID.");
+      return;
+    }
+  }
+
+  fetch(`/support/donate/${donationId}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ amount: donationAmount })
+  })
+    .then(res => res.json())
+    .then(() => {
+      alert("🎉 Payment successful! Thank you for your support.");
+      location.reload();
+    })
+    .catch(err => {
+      console.error("❌ Donation failed", err);
+      alert("Something went wrong. Please try again.");
+    });
+
+  closeModal();
+}
+function logout() {
+  localStorage.removeItem("username");
+  alert("Logged out successfully.");
+  window.location.href = "/login.html";
+}
+const username = localStorage.getItem("username");
+
+if (!username) {
+  alert("Please log in first.");
+  window.location.href = "/login.html";
+}
+
+if (username) {
+  const dropdown = document.querySelector(".dropdown-menu");
+  const userItem = document.createElement("li");
+  userItem.innerHTML = `<a class="dropdown-item disabled">Hi, ${username}</a>`;
+  dropdown.prepend(userItem);
+}
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <div id="paymentModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <h4>Enter Payment Details</h4>
+      <div id="cardDetails">
+        <input type="text" class="form-control mb-2" placeholder="Card Number (12 digits)" id="cardNumber">
+        <input type="text" class="form-control mb-2" placeholder="CVV (3 digits)" id="cvv">
+        <div class="d-flex">
+          <select class="form-select mb-2 me-2" id="expiryMonth">
+            <option value="" disabled selected>Month</option>
+            <option value="01">01 - January</option>
+            <option value="02">02 - February</option>
+            <option value="03">03 - March</option>
+            <option value="04">04 - April</option>
+            <option value="05">05 - May</option>
+            <option value="06">06 - June</option>
+            <option value="07">07 - July</option>
+            <option value="08">08 - August</option>
+            <option value="09">09 - September</option>
+            <option value="10">10 - October</option>
+            <option value="11">11 - November</option>
+            <option value="12">12 - December</option>
+          </select>
+          <select class="form-select mb-2" id="expiryYear">
+            <option value="" disabled selected>Year</option>
+            <option value="2025">2025</option>
+            <option value="2026">2026</option>
+            <option value="2027">2027</option>
+            <option value="2028">2028</option>
+            <option value="2029">2029</option>
+          </select>
+        </div>
+      </div>
+      <div id="upiDetails">
+        <input type="text" class="form-control mb-2" placeholder="UPI ID" id="upiId">
+      </div>
+      <button type="button" class="btn btn-success mt-2" onclick="confirmPayment()">Confirm Payment</button>
+      <button type="button" class="btn btn-danger mt-2" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+</body>
+</html>
+
