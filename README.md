@@ -9,7 +9,7 @@
 - Financial Support Section (Donation Cards + Payment Modal)  
 - Awareness Page with Myths vs Facts & FAQs  
 - Contact Form with Email/Phone Support Details  
-- User Login with Session Handling (LocalStorage)  
+- User Login (Stored using LocalStorage)
 - Admin Dashboard (for approving requests manually from DB)
   
 ##  Tech Stack
